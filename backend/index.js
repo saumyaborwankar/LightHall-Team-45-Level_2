@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 // import fetch from
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
+const { MONGO_DB } = process.env;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
@@ -11,9 +13,7 @@ app.use(cors());
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(
-    "mongodb+srv://sborwankar:dHBD3ULAQFhb7wNg@counter.umy2rrk.mongodb.net/level2"
-  );
+  await mongoose.connect(MONGO_DB);
 }
 
 app.listen(process.env.PORT || 9002, () => {
