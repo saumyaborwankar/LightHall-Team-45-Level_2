@@ -16,9 +16,6 @@ async function main() {
   await mongoose.connect(MONGO_DB);
 }
 
-app.listen(process.env.PORT || 9002, () => {
-  console.log("Backend started at port 9002");
-});
 const userSchema = new mongoose.Schema({
   name: String,
   tasks: [
@@ -52,29 +49,32 @@ app.get("/", (req, res) => {
 // Route for adding a new task and returning a list of updated tasks
 app.post("/addTask", (req, res) => {
   try {
+    // console.log(req.body);
     const userName = req.body.name;
-    const { taskTitle, taskDescription, taskStatus, taskDueDate } =
-      req.body.tasks;
-    UserTask.findOne(
-      { name: userName }.then(async (entry) => {
-        if (entry) {
-          entry.tasks.push({
-            title: taskTitle,
-            description: taskDescription,
-            status: taskStatus,
-            dueDate: taskDueDate,
-          });
-          await entry.save();
-          UserTask.find({}).then((entries) => {
-            res.status(200).send({ message: entries });
-          });
-        } else {
-          res.status(250).send({ message: "no user found" });
-        }
-      })
-    );
+    const { title, description, status, dueDate } = req.body.task;
+    // console.log(userName, title, description, status, dueDate);
+    UserTask.findOne({ name: userName }).then(async (entry) => {
+      if (entry) {
+        entry.tasks.push({
+          title: title,
+          description: description,
+          status: status,
+          dueDate: dueDate,
+        });
+        await entry.save();
+        UserTask.find({}).then((entries) => {
+          res.status(200).send({ message: entries });
+        });
+      } else {
+        res.status(250).send({ message: "no user found" });
+      }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "server error" });
   }
+});
+
+app.listen(process.env.PORT || 9002, () => {
+  console.log("Backend started at port 9002");
 });

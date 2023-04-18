@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 const TaskTracker = () => {
   const [task, setTask] = useState({
     title: "",
@@ -13,8 +14,18 @@ const TaskTracker = () => {
       [name]: value,
     });
   };
-  const handleSubmit = (e) => {
-    console.log(task);
+  const handleSubmit = async (e) => {
+    console.log("sending req");
+    const tasks = await axios.post("http://localhost:9002/addTask", {
+      name: "Saumya",
+      task,
+    });
+    if (tasks.status === 200) {
+      //   console.log(tasks.data);
+      const { message } = tasks.data;
+      //   processItems(message);
+      console.log(message);
+    }
   };
   return (
     <div>
