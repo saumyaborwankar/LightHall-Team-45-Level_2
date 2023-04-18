@@ -48,11 +48,32 @@ const UserTask = mongoose.model("user", userSchema);
 app.get("/", (req, res) => {
   res.status(200).send("Hello from backend");
 });
+
+// Route for adding a new task and returning a list of updated tasks
 app.post("/addTask", (req, res) => {
   try {
-    const name = req.body.name;
-    const { title, description, status, dueDate } = req.body.tasks;
-    res.status(200).send({ message: "added task" });
+    const userName = req.body.name;
+    const { taskTitle, taskDescription, taskStatus, taskDueDate } =
+      req.body.tasks;
+    UserTask.findOne(
+      { name: userName }.then((entry) => {
+        if (entry) {
+          entry.tasks.push({
+            title: taskTitle,
+            description: taskDescription,
+            status: taskStatus,
+            dueDate: taskDueDate,
+          });
+        } else {
+          res.status(250).send({ message: "no user found" });
+        }
+      })
+    );
+
+    UserTask.find({}).then((entries) => {
+      res.status(200).send({ message: entries });
+    });
+    // const updatedTask = "";
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "server error" });
