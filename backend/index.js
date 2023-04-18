@@ -16,14 +16,26 @@ async function main() {
   await mongoose.connect(MONGO_DB);
 }
 
-const userSchema = new mongoose.Schema({
+const taskSchema = new mongoose.Schema({
   name: String,
   tasks: [
     { status: Number, title: String, description: String, dueDate: String },
   ],
 });
-const UserTask = mongoose.model("user", userSchema);
+const UserTask = mongoose.model("tasks", taskSchema);
 
+const userSchema = new mongoose.Schema({
+  name: String,
+  password: String,
+});
+
+const User = mongoose.model("user", userSchema);
+
+// const user2 = new User({
+//   name: "Saumya",
+//   password: "sam",
+// });
+// user2.save();
 // const user1 = new UserTask({
 //   name: "Saumya",
 //   tasks: [
@@ -45,6 +57,22 @@ const UserTask = mongoose.model("user", userSchema);
 app.get("/", (req, res) => {
   res.status(200).send("Hello from backend");
 });
+
+//Login
+app.post("/login", (req, res) => {
+  const { name, password } = req.body;
+  User.findOne({ name: name }).then(async (entry) => {
+    if (entry) {
+      if (password === entry.password) {
+        res.status(200).send({ message: name });
+      }
+    } else {
+      res.status(250).send("wrong pass");
+    }
+  });
+});
+
+//Register
 
 // Route for adding a new task and returning a list of updated tasks
 app.post("/addTask", (req, res) => {
