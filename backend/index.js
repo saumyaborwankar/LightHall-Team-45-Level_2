@@ -56,7 +56,7 @@ app.post("/addTask", (req, res) => {
     const { taskTitle, taskDescription, taskStatus, taskDueDate } =
       req.body.tasks;
     UserTask.findOne(
-      { name: userName }.then((entry) => {
+      { name: userName }.then(async (entry) => {
         if (entry) {
           entry.tasks.push({
             title: taskTitle,
@@ -64,16 +64,15 @@ app.post("/addTask", (req, res) => {
             status: taskStatus,
             dueDate: taskDueDate,
           });
+          await entry.save();
+          UserTask.find({}).then((entries) => {
+            res.status(200).send({ message: entries });
+          });
         } else {
           res.status(250).send({ message: "no user found" });
         }
       })
     );
-
-    UserTask.find({}).then((entries) => {
-      res.status(200).send({ message: entries });
-    });
-    // const updatedTask = "";
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "server error" });
