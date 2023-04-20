@@ -36,40 +36,45 @@ const User = mongoose.model("user", userSchema);
 //   password: "sam",
 // });
 // user2.save();
-const user1 = new UserTask({
-  name: "Saumya",
-  tasks: [
-    {
-      title: "Completing level 2 SESL",
-      description: "lol",
-      status: "inProgress",
-      dueDate: "1999-09-09",
-    },
-    {
-      title: "Completing level 2 SESL",
-      description: "lol",
-      status: "completed",
-      dueDate: "1999-09-09",
-    },
-  ],
-});
-user1.save();
+// const user1 = new UserTask({
+//   name: "Saumya",
+//   tasks: [
+//     {
+//       title: "Completing level 2 SESL",
+//       description: "lol",
+//       status: "inProgress",
+//       dueDate: "1999-09-09",
+//     },
+//     {
+//       title: "Completing level 2 SESL",
+//       description: "lol",
+//       status: "completed",
+//       dueDate: "1999-09-09",
+//     },
+//   ],
+// });
+// user1.save();
 app.get("/", (req, res) => {
   res.status(200).send("Hello from backend");
 });
 
 //Login
 app.post("/login", (req, res) => {
-  const { name, password } = req.body;
-  User.findOne({ name: name }).then(async (entry) => {
-    if (entry) {
-      if (password === entry.password) {
-        res.status(200).send({ message: name });
+  try {
+    const { name, password } = req.body;
+    User.findOne({ name: name }).then(async (entry) => {
+      if (entry) {
+        if (password === entry.password) {
+          res.status(200).send({ message: name });
+        }
+      } else {
+        res.status(250).send("wrong pass");
       }
-    } else {
-      res.status(250).send("wrong pass");
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "server error" });
+  }
 });
 
 //Register

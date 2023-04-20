@@ -29,7 +29,6 @@ const TaskTracker = (props) => {
     setUser(props.user);
     const fetchData = async () => {
       const reponse = await axios.get("http://localhost:9002/getTasks");
-      // Response.
       if (reponse.status === 200) {
         console.log("jw ii", reponse.data.message[0].tasks);
         setTaskList(reponse.data.message[0].tasks);
