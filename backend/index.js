@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
-
+var ObjectId = require("mongodb").ObjectId;
 main().catch((err) => console.log(err));
 
 async function main() {
@@ -19,7 +19,7 @@ async function main() {
 const taskSchema = new mongoose.Schema({
   name: String,
   tasks: [
-    { status: Number, title: String, description: String, dueDate: String },
+    { status: String, title: String, description: String, dueDate: String },
   ],
 });
 const UserTask = mongoose.model("tasks", taskSchema);
@@ -36,24 +36,24 @@ const User = mongoose.model("user", userSchema);
 //   password: "sam",
 // });
 // user2.save();
-// const user1 = new UserTask({
-//   name: "Saumya",
-//   tasks: [
-//     {
-//       title: "Completing level 2 SESL",
-//       description: "lol",
-//       status: 0,
-//       dueDate: "1999-09-09",
-//     },
-//     {
-//       title: "Completing level 2 SESL",
-//       description: "lol",
-//       status: 0,
-//       dueDate: "1999-09-09",
-//     },
-//   ],
-// });
-// user1.save();
+const user1 = new UserTask({
+  name: "Saumya",
+  tasks: [
+    {
+      title: "Completing level 2 SESL",
+      description: "lol",
+      status: "inProgress",
+      dueDate: "1999-09-09",
+    },
+    {
+      title: "Completing level 2 SESL",
+      description: "lol",
+      status: "completed",
+      dueDate: "1999-09-09",
+    },
+  ],
+});
+user1.save();
 app.get("/", (req, res) => {
   res.status(200).send("Hello from backend");
 });
@@ -74,6 +74,70 @@ app.post("/login", (req, res) => {
 
 //Register
 
+// update task
+app.post("/editTask", async (req, res) => {
+  try {
+    const userName = req.body.name;
+    const { title, description, status, dueDate } = req.body.task;
+    const _id = req.body.id;
+    await UserTask.updateOne(
+      { "tasks._id": _id },
+      {
+        $set: {
+          "tasks.$.title": title,
+          "tasks.$.description": description,
+          "tasks.$.dueDate": dueDate,
+          "tasks.$.status": status,
+        },
+      },
+      { arrayFilters: [{ "xxx._id": _id }] }
+    );
+    UserTask.find({}).then((entries) => {
+      res.status(200).send({ message: entries });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "server error" });
+  }
+});
+// delete task
+app.post("/deleteTask", async (req, res) => {
+  try {
+    const userName = req.body.name;
+    // const { title, description, status, dueDate } = req.body.task;
+    const _id = req.body.id;
+    await UserTask.updateOne(
+      { "tasks._id": _id },
+      {
+        $set: {
+          "tasks.$.title": "",
+          "tasks.$.description": "",
+          "tasks.$.dueDate": "",
+          "tasks.$.status": "deleted",
+        },
+      },
+      { arrayFilters: [{ "xxx._id": _id }] }
+    );
+    UserTask.find({}).then((entries) => {
+      res.status(200).send({ message: entries });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "server error" });
+  }
+});
+
+// get task list
+app.get("/getTasks", (req, res) => {
+  try {
+    UserTask.find({}).then((entries) => {
+      res.status(200).send({ message: entries });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "server error" });
+  }
+});
 // Route for adding a new task and returning a list of updated tasks
 app.post("/addTask", (req, res) => {
   try {
