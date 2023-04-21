@@ -62,6 +62,7 @@ app.get("/", (req, res) => {
 app.post("/login", (req, res) => {
   try {
     const { name, password } = req.body;
+    console.info("login for ", name);
     User.findOne({ name: name }).then(async (entry) => {
       if (entry) {
         if (password === entry.password) {
@@ -82,6 +83,7 @@ app.post("/register", (req, res) => {
   try {
     console.info(req.body);
     const { name, password } = req.body;
+    console.info("register for ", name);
     User.findOne({ name: name }).then(async (entry) => {
       if (entry) {
         res.status(500).send({ message: "User already registered" });
@@ -177,7 +179,7 @@ app.post("/deleteTask", async (req, res) => {
 app.post("/getTasks", (req, res) => {
   try {
     const userName = req.body.name;
-    // console.info("get task for", userName);
+    console.info("get task for", userName);
     UserTask.find({ name: userName }).then((entries) => {
       res.status(200).send({ message: entries });
     });
@@ -193,6 +195,7 @@ app.post("/addTask", (req, res) => {
     const userName = req.body.name;
     const { title, description, status, dueDate } = req.body.task;
     // console.log(userName, title, description, status, dueDate);
+    console.info("add task for ", userName);
     UserTask.findOne({ name: userName }).then(async (entry) => {
       if (entry) {
         entry.tasks.push({

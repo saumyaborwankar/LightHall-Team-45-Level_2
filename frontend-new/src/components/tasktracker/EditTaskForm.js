@@ -13,7 +13,7 @@ import axios from "axios";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
+import EditIcon from "@mui/icons-material/Edit";
 export const EditTaskForm = (props) => {
   // for date
   const startDate = null;
@@ -87,9 +87,9 @@ export const EditTaskForm = (props) => {
   };
   return (
     <div className="task-edit-btn">
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <EditIcon variant="outlined" onClick={handleClickOpen}>
         Edit Task
-      </Button>
+      </EditIcon>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Task Details</DialogTitle>
         <DialogContent>

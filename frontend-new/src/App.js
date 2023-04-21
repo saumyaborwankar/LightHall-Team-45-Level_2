@@ -21,7 +21,7 @@ function App() {
       <div className="Title">
         <h1>Task Tracker</h1>
       </div>
-      {isLoggedIn ? (
+      {isLoggedIn || user ? (
         <TaskList user={user} />
       ) : (
         <div>
