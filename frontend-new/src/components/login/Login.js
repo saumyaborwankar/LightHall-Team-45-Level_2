@@ -1,22 +1,22 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-// import {
-//   setSession,
-//   getSession,
-//   clearSession,
-// } from "../SessionProvider/SessionProvider";
+import {
+  setSession,
+  getSession,
+  clearSession,
+} from "../SessionProvider/SessionProvider";
 
 export const Login = (props) => {
   // const { login } = useContext(SessionContext);
 
-  // const [user, setUser] = useState(null);
-  // const [token, setToken] = useState(null);
-  // const [expiry, setExpiry] = useState(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [expiry, setExpiry] = useState(null);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const loginUser = async () => {
-    let response = await axios.post("http://localhost:9002/login", {
+    let response = await axios.post("https://backend-level2.vercel.app/login", {
       name: username,
       password: password,
     });
@@ -25,14 +25,16 @@ export const Login = (props) => {
       props.setUser(username);
       console.log("logged in", username);
 
-      // const token = "my-auth-token";
-      // const expiry = Date.now() + 3600000; // 1 hour from now
-      // setSession(username, token, expiry);
-      // setUser(username);
-      // setToken(token);
-      // setExpiry(expiry);
+      const token = "my-auth-token";
+      const expiry = Date.now() + 3600000; // 1 hour from now
+      setSession(username, token, expiry);
+      setUser(username);
+      setToken(token);
+      setExpiry(expiry);
+    } else if (response.status === 250) {
+      alert("Wrong pass");
     } else {
-      alert("wrongpass");
+      alert("Wrong pass and username");
       console.log("Wrong credentials");
     }
   };

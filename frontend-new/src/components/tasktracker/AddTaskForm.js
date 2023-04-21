@@ -67,10 +67,13 @@ export const AddTaskForm = (props) => {
   const handleSubmit = async () => {
     // console.log(task);
     if (task.title !== "" && task.description !== "") {
-      const tasks = await axios.post("http://localhost:9002/addTask", {
-        name: props.user,
-        task,
-      });
+      const tasks = await axios.post(
+        "https://backend-level2.vercel.app/addTask",
+        {
+          name: props.user,
+          task,
+        }
+      );
       if (tasks.status === 200) {
         //   console.log(tasks.data);
         const { message } = tasks.data;
@@ -86,7 +89,7 @@ export const AddTaskForm = (props) => {
   };
   return (
     <div className="task-add-btn">
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Add Task
       </Button>
       <Dialog open={open} onClose={handleClose}>

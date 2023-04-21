@@ -13,7 +13,9 @@ var ObjectId = require("mongodb").ObjectId;
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(MONGO_DB);
+  await mongoose.connect(
+    "mongodb+srv://sborwankar:dHBD3ULAQFhb7wNg@counter.umy2rrk.mongodb.net/level2"
+  );
 }
 
 const taskSchema = new mongoose.Schema({
@@ -63,17 +65,22 @@ app.post("/login", (req, res) => {
   try {
     const { name, password } = req.body;
     console.info("login for ", name);
-    User.findOne({ name: name }).then(async (entry) => {
-      if (entry) {
-        if (password === entry.password) {
-          res.status(200).send({ message: name });
+    try {
+      User.findOne({ name: name }).then(async (entry) => {
+        if (entry) {
+          if (password === entry.password) {
+            res.status(200).send({ message: name });
+          }
+        } else {
+          res.status(250).send("wrong pass");
         }
-      } else {
-        res.status(250).send("wrong pass");
-      }
-    });
+      });
+    } catch (err) {
+      console.info(err);
+      res.status(250).send("wrong pass");
+    }
   } catch (err) {
-    console.log(err);
+    console.info(err);
     res.status(500).send({ message: "server error" });
   }
 });

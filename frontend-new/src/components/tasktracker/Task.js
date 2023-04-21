@@ -19,11 +19,14 @@ export const Task = (props) => {
   const handleDelete = async (user, row) => {
     console.log(user, row);
     // console.log("dee");
-    const tasks = await axios.post("http://localhost:9002/deleteTask", {
-      name: user,
-      // task: row,
-      id: row._id,
-    });
+    const tasks = await axios.post(
+      "https://backend-level2.vercel.app/deleteTask",
+      {
+        name: user,
+        // task: row,
+        id: row._id,
+      }
+    );
     if (tasks.status === 200) {
       //   console.log(tasks.data);
       const { message } = tasks.data;
@@ -64,16 +67,19 @@ export const Task = (props) => {
       }
     } else {
       setChecked("completed");
-      const tasks = await axios.post("http://localhost:9002/editTask", {
-        name: props.user,
-        task: {
-          title: props.row.title,
-          description: props.row.description,
-          status: "completed",
-          dueDate: props.row.dueDate,
-        },
-        id: props.row._id,
-      });
+      const tasks = await axios.post(
+        "https://backend-level2.vercel.app/editTask",
+        {
+          name: props.user,
+          task: {
+            title: props.row.title,
+            description: props.row.description,
+            status: "completed",
+            dueDate: props.row.dueDate,
+          },
+          id: props.row._id,
+        }
+      );
       if (tasks.status === 200) {
         //   console.log(tasks.data);
         const { message } = tasks.data;

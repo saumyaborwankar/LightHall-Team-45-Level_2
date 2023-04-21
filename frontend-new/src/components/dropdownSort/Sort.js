@@ -55,6 +55,7 @@ const StyledMenu = styled((props) => (
 
 export default function Sort(props) {
   //   const [taskList, setTaskList] = React.useState(props.taskList);
+  const [dummy, setDummy] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -95,6 +96,7 @@ export default function Sort(props) {
       }
     });
     console.log(sortedTaskList);
+    setDummy(sortedTaskList);
     props.setTaskList(sortedTaskList);
     setAnchorEl(null);
   };
@@ -110,7 +112,7 @@ export default function Sort(props) {
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        Sort By
+        Sort
       </Button>
       <StyledMenu
         id="demo-customized-menu"

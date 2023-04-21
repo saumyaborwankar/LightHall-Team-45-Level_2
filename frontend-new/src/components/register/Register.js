@@ -12,7 +12,7 @@ export const Register = (props) => {
     // if (name && password && password === reEnterPassword) {
     if (username && password) {
       axios
-        .post("http://localhost:9002/register", {
+        .post("https://backend-level2.vercel.app/register", {
           name: username,
           password: password,
         })

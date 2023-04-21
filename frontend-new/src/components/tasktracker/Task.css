@@ -93,7 +93,7 @@ h2 {
     justify-content: space-between;
     align-items: flex-start;
     margin: 0 auto;
-    max-width: 60vw;
+    max-width: 70vw;
     padding-top: 11vw;
     padding-left: 15vw;
     padding-right: 15vw;
@@ -169,8 +169,10 @@ h2 {
 .user-info{
     /* display: flex; */
     /* flex-direction: row; */ 
-    width: 20vw;
-    margin: 2vw;
+    background-color: #bdb2e4 !important;
+    width: 40vw;
+    margin-top: 2vw;
+    margin-left: 1vw;
     background-color: #fff;
     border: 1px solid #ccc;
     color: black;
@@ -181,4 +183,11 @@ h2 {
 .task-list.completed{
     margin: 2vw;
 }
-
+.add-btn{
+    width:910px !important;
+    background-color: black;
+    padding: 20px;
+}
+.sorting{
+    padding:10px;
+}

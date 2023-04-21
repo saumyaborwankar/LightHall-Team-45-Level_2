@@ -24,14 +24,15 @@
 }
 
 .auth-form-container, .login-form, .register-form {
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
 }
 
 @media screen and (min-width: 600px) {
   .auth-form-container {
-    padding: 5rem;
+    top: 20% !important;
+    padding: 1vw;
     border: 1px solid white;
     border-radius: 10px;
     transition: width 2s;
@@ -41,7 +42,7 @@
 
 .Title {
   position: absolute;
-  top: 0%;
+  top: -8%;
   font-size: 3vw;
   font-weight: 700;
   color: #fff;
@@ -53,13 +54,13 @@
 }
 
 label {
-  text-align: left;
-  padding: 5px;
+  text-align: center;
+  padding: 1vh;
 }
 
 input {
   padding: 10px;
-  margin: 5px;
+  margin: 1vh;
   border-radius: 5px;
   border: none;
 }
@@ -120,4 +121,7 @@ button:hover {
   to {
     transform: rotate(360deg);
   }
+}
+.login-register{
+  padding-top: 1vh !important;
 }

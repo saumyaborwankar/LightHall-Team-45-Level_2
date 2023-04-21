@@ -67,11 +67,14 @@ export const EditTaskForm = (props) => {
   const handleSubmit = async () => {
     // console.log(task, props.row._id);
     if (task.title !== "" && task.description !== "") {
-      const tasks = await axios.post("http://localhost:9002/editTask", {
-        name: props.user,
-        task: task,
-        id: props.row._id,
-      });
+      const tasks = await axios.post(
+        "https://backend-level2.vercel.app/editTask",
+        {
+          name: props.user,
+          task: task,
+          id: props.row._id,
+        }
+      );
       if (tasks.status === 200) {
         //   console.log(tasks.data);
         const { message } = tasks.data;

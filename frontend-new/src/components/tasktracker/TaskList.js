@@ -14,11 +14,11 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-// import {
-//   setSession,
-//   getSession,
-//   clearSession,
-// } from "../SessionProvider/SessionProvider";
+import {
+  setSession,
+  getSession,
+  clearSession,
+} from "../SessionProvider/SessionProvider";
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -65,16 +65,19 @@ export const TaskList = (props) => {
   const [user, setUser] = useState(props.user);
   const [taskList, setTaskList] = useState();
 
-  // const [token, setToken] = useState(null);
-  // const [expiry, setExpiry] = useState(null);
+  const [token, setToken] = useState(null);
+  const [expiry, setExpiry] = useState(null);
 
   useEffect(() => {
     // setUser(props.user);
     // console.log("task tracker started for", { user });
     const fetchData = async () => {
-      const reponse = await axios.post("http://localhost:9002/getTasks", {
-        name: user,
-      });
+      const reponse = await axios.post(
+        "https://backend-level2.vercel.app/getTasks",
+        {
+          name: user,
+        }
+      );
       if (reponse.status === 200) {
         // console.log("jw ii", reponse.data.message[0].tasks);
         setTaskList(reponse.data.message[0].tasks);
@@ -93,11 +96,14 @@ export const TaskList = (props) => {
   const handleDelete = async (user, row) => {
     console.log(user, row);
     // console.log("dee");
-    const tasks = await axios.post("http://localhost:9002/deleteTask", {
-      name: user,
-      // task: row,
-      id: row._id,
-    });
+    const tasks = await axios.post(
+      "https://backend-level2.vercel.app/deleteTask",
+      {
+        name: user,
+        // task: row,
+        id: row._id,
+      }
+    );
     if (tasks.status === 200) {
       //   console.log(tasks.data);
       const { message } = tasks.data;
@@ -110,10 +116,11 @@ export const TaskList = (props) => {
   };
 
   const handleLogout = () => {
-    // clearSession();
-    // setUser(null);
-    // setToken(null);
-    // setExpiry(null);
+    clearSession();
+    setUser(null);
+    setToken(null);
+    setExpiry(null);
+    props.setIsLoggedIn(false);
     console.log("logout");
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -240,15 +247,15 @@ export const TaskList = (props) => {
         </div> */}
         </div>
         <div className="user-info">
-          <div className="tasklist">TaskList for {user}</div>
+          <h2 className="tasklist">TaskList for {user}</h2>
           <AddTaskForm
             className="add-btn"
             user={user}
             setTaskList={setTaskList}
           />
-          <Sort taskList={taskList} setTaskList={setTaskList} />
+          {/* <Sort taskList={taskList} setTaskList={setTaskList} /> */}
 
-          {/* <div className="sorting">
+          <div className="sorting">
             <div>
               <Button
                 id="demo-customized-button"
@@ -259,8 +266,9 @@ export const TaskList = (props) => {
                 disableElevation
                 onClick={handleSortClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                size="medium"
               >
-                Sort By
+                Sort
               </Button>
               <StyledMenu
                 id="demo-customized-menu"
@@ -282,45 +290,10 @@ export const TaskList = (props) => {
                 </MenuItem>
               </StyledMenu>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
+      <button onClick={handleLogout}>Logout</button>
     </div>
-
-    // <div class="container">
-    //   <div class="task-list completed">
-    //     <h2>Completed Tasks</h2>
-    //     <div class="card">
-    //       <div class="details">
-    //         <div class="title">Task 1</div>
-    //         <div class="description">This is the description for Task 1.</div>
-    //         <div class="status">Completed</div>
-    //         <div class="due-date">Due: 2023-05-01</div>
-    //       </div>
-    //       <div class="icons">
-    //         <div class="icon"></div>
-    //         <div class="icon"></div>
-    //       </div>
-    //     </div>
-    //     <div class="card">
-    //       <div class="details">
-    //         <div class="title">Task 2</div>
-    //         <div class="description">This is the description for Task 2.</div>
-    //         <div class="status">Completed</div>
-    //         <div class="due-date">Due: 2023-05-05</div>
-    //       </div>
-    //       <div class="icons">
-    //         <div class="icon"></div>
-    //         <div class="icon"></div>
-    //       </div>
-    //     </div>
-    //     <div class="card">
-    //       <div class="details">
-    //         <div class="title">Task 3</div>
-    //         <div class="description">This is the description for Task </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
