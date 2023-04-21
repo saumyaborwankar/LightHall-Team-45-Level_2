@@ -19,9 +19,9 @@ export const EditTaskForm = (props) => {
   const startDate = null;
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState({
-    title: "",
-    description: "",
-    status: "notCompleted",
+    title: props.row.title,
+    description: props.row.description,
+    status: props.row.status,
     dueDate: new Date().toISOString().slice(0, 10),
   });
 
@@ -48,7 +48,7 @@ export const EditTaskForm = (props) => {
 
   const handleDateChange = (e) => {
     const month = e.$M + 1;
-    const newDate = month + "/" + e.$D + "/" + e.$y;
+    const newDate = e.$y + "-" + month + "-" + e.$D;
     // console.log(e);
     setTask({
       ...task,
@@ -65,11 +65,12 @@ export const EditTaskForm = (props) => {
   };
 
   const handleSubmit = async () => {
-    // console.log(task);
+    // console.log(task, props.row._id);
     if (task.title !== "" && task.description !== "") {
-      const tasks = await axios.post("http://localhost:9002/addTask", {
+      const tasks = await axios.post("http://localhost:9002/editTask", {
         name: props.user,
-        task,
+        task: task,
+        id: props.row._id,
       });
       if (tasks.status === 200) {
         //   console.log(tasks.data);
@@ -101,6 +102,7 @@ export const EditTaskForm = (props) => {
             type="text"
             fullWidth
             variant="standard"
+            value={task.title}
             onChange={handleChange}
           />
           <TextField
@@ -111,11 +113,12 @@ export const EditTaskForm = (props) => {
             type="text"
             fullWidth
             variant="standard"
+            value={task.description}
             onChange={handleChange}
           />
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="notCompleted"
+            defaultValue={task.status}
             name="status"
             onClick={handleRadioChange}
           >
@@ -141,7 +144,7 @@ export const EditTaskForm = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>Edit</Button>
         </DialogActions>
       </Dialog>
     </div>

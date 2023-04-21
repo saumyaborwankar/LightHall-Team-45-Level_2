@@ -111,16 +111,18 @@ app.post("/register", (req, res) => {
     res.status(500).send({ message: "server error" });
   }
 });
-// log out button
-// store cookie username
-// delete button
 
-// sort function
+// log out button
+
+// session managment
+// sort kaise
+// setTaskList ko kaise call kare
 
 // update task
 app.post("/editTask", async (req, res) => {
   try {
     const userName = req.body.name;
+    console.info("edit task for ", userName);
     const { title, description, status, dueDate } = req.body.task;
     const _id = req.body.id;
     await UserTask.updateOne(

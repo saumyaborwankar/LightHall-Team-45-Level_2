@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-// import PropTypes from 'prop-types';
+// import {
+//   setSession,
+//   getSession,
+//   clearSession,
+// } from "../SessionProvider/SessionProvider";
 
 export const Login = (props) => {
+  // const { login } = useContext(SessionContext);
+
+  // const [user, setUser] = useState(null);
+  // const [token, setToken] = useState(null);
+  // const [expiry, setExpiry] = useState(null);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const loginUser = async () => {
@@ -14,6 +24,13 @@ export const Login = (props) => {
       props.setIsLoggedIn(true);
       props.setUser(username);
       console.log("logged in", username);
+
+      // const token = "my-auth-token";
+      // const expiry = Date.now() + 3600000; // 1 hour from now
+      // setSession(username, token, expiry);
+      // setUser(username);
+      // setToken(token);
+      // setExpiry(expiry);
     } else {
       alert("wrongpass");
       console.log("Wrong credentials");

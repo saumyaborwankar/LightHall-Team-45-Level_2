@@ -6,7 +6,7 @@ import { Login } from "./components/login/Login";
 import { Register } from "./components/register/Register";
 
 function App() {
-  const [user, setUser] = useState("Saumya");
+  const [user, setUser] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentForm, setCurrentForm] = useState("login");
 

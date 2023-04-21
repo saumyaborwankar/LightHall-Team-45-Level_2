@@ -4,18 +4,16 @@ import React, { useDebugValue, useEffect, useState } from "react";
 import axios from "axios";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import AddIcon from "@mui/icons-material/Add";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
 const EditTask = (props) => {
   //   const [taskList, setTaskList] = useState();
   //   const [user, setUser] = useState("");
   const [task, setTask] = useState({
-    title: props.task.title,
-    description: props.task.description,
-    status: props.task.status,
-    dueDate: props.task.dueDate,
+    title: props.row.title,
+    description: props.row.description,
+    status: props.row.status,
+    dueDate: props.row.dueDate,
   });
 
   const [startDate, setStartDate] = useState(new Date());

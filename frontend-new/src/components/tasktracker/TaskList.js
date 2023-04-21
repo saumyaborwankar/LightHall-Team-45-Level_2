@@ -4,10 +4,18 @@ import { Task } from "./Task";
 import { AddTaskForm } from "./AddTaskForm";
 import { EditTaskForm } from "./EditTaskForm";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import Sort from "../dropdownSort/Sort";
+// import {
+//   setSession,
+//   getSession,
+//   clearSession,
+// } from "../SessionProvider/SessionProvider";
 export const TaskList = (props) => {
   const [user, setUser] = useState(props.user);
   const [taskList, setTaskList] = useState();
+
+  // const [token, setToken] = useState(null);
+  // const [expiry, setExpiry] = useState(null);
 
   useEffect(() => {
     // setUser(props.user);
@@ -23,6 +31,13 @@ export const TaskList = (props) => {
     };
     fetchData();
     // console.log("task tracker opened for", { user });
+
+    // const session = getSession();
+    // if (session) {
+    //   setUser(session.user);
+    //   setToken(session.token);
+    //   setExpiry(session.expiry);
+    // }
   }, []);
   const handleDelete = async (user, row) => {
     console.log(user, row);
@@ -42,9 +57,20 @@ export const TaskList = (props) => {
       console.log("error");
     }
   };
+
+  const handleLogout = () => {
+    // clearSession();
+    // setUser(null);
+    // setToken(null);
+    // setExpiry(null);
+    console.log("logout");
+  };
+
   return (
     <div>
       <div>TaskList for {user}</div>
+      <Sort taskList={taskList} setTaskList={setTaskList} />
+      <button onClick={handleLogout}>Logout</button>
       <div className="tasks">
         {taskList ? (
           taskList.map((row) => {

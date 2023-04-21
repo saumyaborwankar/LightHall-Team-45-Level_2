@@ -47,7 +47,8 @@ export const AddTaskForm = (props) => {
 
   const handleDateChange = (e) => {
     const month = e.$M + 1;
-    const newDate = month + "/" + e.$D + "/" + e.$y;
+    // const newDate = month + "/" + e.$D + "/" + e.$y;
+    const newDate = e.$y + "-" + month + "-" + e.$D;
     // console.log(e);
     setTask({
       ...task,
