@@ -42,13 +42,14 @@
 .Title {
   position: absolute;
   top: 0%;
-  font-size: 40px;
+  font-size: 3vw;
   font-weight: 700;
   color: #fff;
   font-family: sans-serif;
   text-align: center;
   display: flex;
   align-items: center;
+  padding: 2vh;
 }
 
 label {

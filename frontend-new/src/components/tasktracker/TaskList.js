@@ -4,11 +4,63 @@ import { Task } from "./Task";
 import { AddTaskForm } from "./AddTaskForm";
 import "./Task.css";
 import Sort from "../dropdownSort/Sort";
+import { styled, alpha } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import EditIcon from "@mui/icons-material/Edit";
+import Divider from "@mui/material/Divider";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // import {
 //   setSession,
 //   getSession,
 //   clearSession,
 // } from "../SessionProvider/SessionProvider";
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "right",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "right",
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  "& .MuiPaper-root": {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === "light"
+        ? "rgb(55, 65, 81)"
+        : theme.palette.grey[300],
+    boxShadow:
+      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    "& .MuiMenu-list": {
+      padding: "4px 0",
+    },
+    "& .MuiMenuItem-root": {
+      "& .MuiSvgIcon-root": {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      "&:active": {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity
+        ),
+      },
+    },
+  },
+}));
 export const TaskList = (props) => {
   const [user, setUser] = useState(props.user);
   const [taskList, setTaskList] = useState();
@@ -64,7 +116,49 @@ export const TaskList = (props) => {
     // setExpiry(null);
     console.log("logout");
   };
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleSortClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleSortClose = () => {
+    setAnchorEl(null);
+  };
+  const handleTitleSort = () => {
+    console.log("sort");
+    console.log(taskList);
+    const sortedTaskList = taskList.sort((a, b) => {
+      //   console.log(a);
+      if (a.title < b.title) {
+        return -1;
+      }
+    });
+    console.log(sortedTaskList);
+    setTaskList(sortedTaskList);
+    setAnchorEl(null);
+  };
+  const handleDueDateSort = () => {
+    console.log("sort");
+    const sortedTaskList = taskList.sort((a, b) => {
+      var c = new Date(a.dueDate);
+      var d = new Date(b.dueDate);
+      return c - d;
+    });
+    console.log(sortedTaskList);
+    setTaskList(sortedTaskList);
+    setAnchorEl(null);
+  };
+  const handleDescriptionSort = () => {
+    console.log("sort");
+    const sortedTaskList = taskList.sort((a, b) => {
+      if (a.description < b.description) {
+        return -1;
+      }
+    });
+    console.log(sortedTaskList);
+    setTaskList(sortedTaskList);
+    setAnchorEl(null);
+  };
   return (
     // <div>
     //   <div>TaskList for {user}</div>
@@ -145,9 +239,52 @@ export const TaskList = (props) => {
           </div>
         </div> */}
         </div>
+        <div className="user-info">
+          <div className="tasklist">TaskList for {user}</div>
+          <AddTaskForm
+            className="add-btn"
+            user={user}
+            setTaskList={setTaskList}
+          />
+          <Sort taskList={taskList} setTaskList={setTaskList} />
+
+          {/* <div className="sorting">
+            <div>
+              <Button
+                id="demo-customized-button"
+                aria-controls={open ? "demo-customized-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                variant="contained"
+                disableElevation
+                onClick={handleSortClick}
+                endIcon={<KeyboardArrowDownIcon />}
+              >
+                Sort By
+              </Button>
+              <StyledMenu
+                id="demo-customized-menu"
+                MenuListProps={{
+                  "aria-labelledby": "demo-customized-button",
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleSortClose}
+              >
+                <MenuItem onClick={handleTitleSort} disableRipple>
+                  Title
+                </MenuItem>
+                <MenuItem onClick={handleDescriptionSort} disableRipple>
+                  Description
+                </MenuItem>
+                <MenuItem onClick={handleDueDateSort} disableRipple>
+                  Due Date
+                </MenuItem>
+              </StyledMenu>
+            </div>
+          </div> */}
+        </div>
       </div>
-      <div>TaskList for {user}</div>
-      <AddTaskForm user={user} setTaskList={setTaskList} />
     </div>
 
     // <div class="container">

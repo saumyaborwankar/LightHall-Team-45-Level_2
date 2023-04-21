@@ -93,10 +93,10 @@ h2 {
     justify-content: space-between;
     align-items: flex-start;
     margin: 0 auto;
-    max-width: 800px;
-    padding-top: 100px;
-    padding-left: 50px;
-    padding-right: 50px;
+    max-width: 60vw;
+    padding-top: 11vw;
+    padding-left: 15vw;
+    padding-right: 15vw;
     /* padding: 20px; */
     color:black
 }
@@ -166,6 +166,19 @@ h2 {
     justify-content: right;
     align-items: right;
 }
-
-
+.user-info{
+    /* display: flex; */
+    /* flex-direction: row; */ 
+    width: 20vw;
+    margin: 2vw;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: black;
+}
+.task-list.not-completed{
+    margin: 2vw;
+}
+.task-list.completed{
+    margin: 2vw;
+}
 
