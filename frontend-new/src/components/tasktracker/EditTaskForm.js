@@ -85,7 +85,7 @@ export const EditTaskForm = (props) => {
     setOpen(false);
   };
   return (
-    <div>
+    <div className="task-edit-btn">
       <Button variant="outlined" onClick={handleClickOpen}>
         Edit Task
       </Button>

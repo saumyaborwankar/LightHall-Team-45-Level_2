@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 // import PropTypes from 'prop-types';
 
@@ -7,7 +8,21 @@ export const Register = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username);
+    console.log(username, password);
+    // if (name && password && password === reEnterPassword) {
+    if (username && password) {
+      axios
+        .post("http://localhost:9002/register", {
+          name: username,
+          password: password,
+        })
+        .then((res) => {
+          alert(res.data.message);
+          props.onFormSwitch("login");
+        });
+    } else {
+      alert("invlid input");
+    }
   };
 
   return (

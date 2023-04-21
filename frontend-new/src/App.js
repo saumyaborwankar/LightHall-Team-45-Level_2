@@ -26,7 +26,11 @@ function App() {
       ) : (
         <div>
           {currentForm === "login" ? (
-            <Login onFormSwitch={toggleForm} setIsLoggedIn={setIsLoggedIn} />
+            <Login
+              onFormSwitch={toggleForm}
+              setIsLoggedIn={setIsLoggedIn}
+              setUser={setUser}
+            />
           ) : (
             <Register onFormSwitch={toggleForm} />
           )}

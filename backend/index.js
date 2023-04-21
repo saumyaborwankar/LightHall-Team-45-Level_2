@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("user", userSchema);
 
 // const user2 = new User({
-//   name: "Saumya",
-//   password: "sam",
+//   name: "Liem",
+//   password: "liem",
 // });
 // user2.save();
 // const user1 = new UserTask({
@@ -78,6 +78,44 @@ app.post("/login", (req, res) => {
 });
 
 //Register
+app.post("/register", (req, res) => {
+  try {
+    console.info(req.body);
+    const { name, password } = req.body;
+    User.findOne({ name: name }).then(async (entry) => {
+      if (entry) {
+        res.status(500).send({ message: "User already registered" });
+      } else {
+        const user2 = new User({
+          name: name,
+          password: password,
+        });
+        user2.save();
+        const user1 = new UserTask({
+          name: name,
+          tasks: [
+            {
+              title: "",
+              description: "",
+              status: "deleted",
+              dueDate: "",
+            },
+          ],
+        });
+        user1.save();
+        res.status(200).send({ message: "User created" });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "server error" });
+  }
+});
+// log out button
+// store cookie username
+// delete button
+
+// sort function
 
 // update task
 app.post("/editTask", async (req, res) => {
@@ -97,7 +135,7 @@ app.post("/editTask", async (req, res) => {
       },
       { arrayFilters: [{ "xxx._id": _id }] }
     );
-    UserTask.find({}).then((entries) => {
+    UserTask.find({ name: userName }).then((entries) => {
       res.status(200).send({ message: entries });
     });
   } catch (err) {
@@ -111,6 +149,7 @@ app.post("/deleteTask", async (req, res) => {
     const userName = req.body.name;
     // const { title, description, status, dueDate } = req.body.task;
     const _id = req.body.id;
+    console.log("delete task for ", userName);
     await UserTask.updateOne(
       { "tasks._id": _id },
       {
@@ -123,7 +162,7 @@ app.post("/deleteTask", async (req, res) => {
       },
       { arrayFilters: [{ "xxx._id": _id }] }
     );
-    UserTask.find({}).then((entries) => {
+    UserTask.find({ name: userName }).then((entries) => {
       res.status(200).send({ message: entries });
     });
   } catch (err) {
@@ -133,13 +172,15 @@ app.post("/deleteTask", async (req, res) => {
 });
 
 // get task list
-app.get("/getTasks", (req, res) => {
+app.post("/getTasks", (req, res) => {
   try {
-    UserTask.find({}).then((entries) => {
+    const userName = req.body.name;
+    // console.info("get task for", userName);
+    UserTask.find({ name: userName }).then((entries) => {
       res.status(200).send({ message: entries });
     });
   } catch (err) {
-    console.log(err);
+    console.info(err);
     res.status(500).send({ message: "server error" });
   }
 });
@@ -159,7 +200,7 @@ app.post("/addTask", (req, res) => {
           dueDate: dueDate,
         });
         await entry.save();
-        UserTask.find({}).then((entries) => {
+        UserTask.find({ name: userName }).then((entries) => {
           res.status(200).send({ message: entries });
         });
       } else {

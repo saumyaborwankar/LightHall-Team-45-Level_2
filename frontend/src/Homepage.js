@@ -10,7 +10,7 @@ const Homepage = () => {
   return (
     <div>
       <div>Homepage</div>
-      {isLoggedIn ? <TaskTracker user={"Saumya"} /> : <Login />}
+      {isLoggedIn ? <TaskTracker user={user} /> : <Login />}
     </div>
   );
 };

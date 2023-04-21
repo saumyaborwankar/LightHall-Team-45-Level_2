@@ -12,9 +12,11 @@ export const Login = (props) => {
     });
     if (response.status === 200) {
       props.setIsLoggedIn(true);
-      console.log("logged in");
+      props.setUser(username);
+      console.log("logged in", username);
     } else {
-      console.log("wrong pass");
+      alert("wrongpass");
+      console.log("Wrong credentials");
     }
   };
   const handleSubmit = (e) => {
